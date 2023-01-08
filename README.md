@@ -1,4 +1,7 @@
+### tekana-eWallet
+
 Strategy:
+    
     1. First, gather requirements from the business team and other stakeholders to understand the needs and goals of the project.
     This will involve working closely with the product owner, UI/UX designers, and other subject matter experts to define the features and functionality of the new back-end solution.
 
@@ -19,5 +22,56 @@ Strategy:
 
     7. Once the new back-end solution is live, continue to monitor and optimize its performance and stability, and iterate on the codebase as needed to address any issues or add new features.
 
-// rewrite the above with bullet points instead of numbers
+Strategy break-down:
+
+- Planning:
+
+    * Understand the business and technical requirements of the project.
+    * Collaborate with product manager and other teams to clarify any questions or issues.
+    * Determine the appropriate technology stack and tools to use, based on the requirements and constraints of the project.
+    * Create a high-level plan for delivering the project in small, incremental iterations (sprints).
+
+- Implementation:
+
+    * Design the database schema, taking into consideration the relationships between the entities and the performance requirements of the system.
+    * Implement the data models, controllers, and services for the required features (customers, wallets, transactions).
+    * Write clean, well-documented code that is easy to maintain and test.
+    * Configure the application for deployment, including Dockerization and testing.
+  
+- Evaluation and Improvement:
+
+    * Review the implementation with the product manager and other stakeholders to ensure it meets the requirements and expectations.
+    * Conduct thorough testing to ensure the system is reliable and performs well.
+    * Collaborate with the QA team to identify and fix any issues.
+    * Continuously monitor and measure the performance and user experience of the system, and make improvements as needed.
+
+### How to clone and use this project
+# Requirements
+ 1. Node.js
+ 2. Postgres
+ 3. Docker (Just in case you want to run the project in a container)
+
+- Clone the project
+
+    git clone
+
+# Commands to apply migrations and seeds
+
+    prisma:deploy
+
+- Install dependencies
+
+    npm install
+
+- Run the project
+
+    npm start:dev
+
+- Running the docker container
+
+    docker-compose up
+
+    
+
+
 

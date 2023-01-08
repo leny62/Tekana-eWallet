@@ -9,7 +9,7 @@ services:
         depends_on:
             - psqldb
         ports:
-            - 5000:${PORT}
+            - 4000:${PORT}
         restart: unless-stopped
         networks:
             - tekana-net

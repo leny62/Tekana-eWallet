@@ -9,7 +9,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "nest start --watch",
+    "start:dev": "npm run prisma:migrate && npm run prisma:generate && nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -23,7 +23,6 @@
     "prisma:reset": "npx prisma migrate reset",
     "prisma:init": "npx prisma init",
     "prisma:migrate": "npx prisma migrate dev",
-    "postinstall": "npx prisma generate && npm run build",
     "prisma:prod": "npx prisma db push"
   },
   "dependencies": {
@@ -36,7 +35,7 @@
     "@nestjs/swagger": "^6.1.4",
     "@nestjs/typeorm": "^9.0.1",
     "@prisma/client": "^4.8.1",
-    "argon2": "^0.30.3",
+    "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "passport": "^0.6.0",
@@ -51,6 +50,7 @@
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
+    "@types/bcryptjs": "^2.4.2",
     "@types/express": "^4.17.13",
     "@types/jest": "29.2.4",
     "@types/node": "18.11.18",

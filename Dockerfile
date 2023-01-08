@@ -4,11 +4,11 @@ WORKDIR /usr/src/app
 
 COPY package.json package-lock.json ./
 
+# THIS IS TO ENABLE PRISMA TO DETECT REQUIRED FILES
+RUN apt-get update && apt-get install -y openssl libssl-dev
 
 RUN npm ci
 
 COPY . .
 
-RUN npm run build
-
-CMD node dist/main
+CMD npm start
