@@ -8,7 +8,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
-import { AdminDto, customerDto } from './dto';
+import {  customerDto } from './dto';
 import {
   ApiBody,
   ApiConflictResponse,
@@ -22,10 +22,10 @@ import {
   ApiQuery,
 } from '@nestjs/swagger';
 
-import { AllowRoles } from 'src/auth/decorators';
-import { ERoles } from 'src/auth/enums';
-import { JwtGuard } from 'src/auth/guard/jwt.guard';
-import { RolesGuard } from 'src/auth/guard/roles.guard';
+import { AllowRoles } from '../auth/decorators';
+import { ERoles } from '../auth/enums';
+import { JwtGuard } from '../auth/guard/jwt.guard';
+import { RolesGuard } from '../auth/guard/roles.guard';
 
 @Controller('admin')
 @ApiTags('admin')

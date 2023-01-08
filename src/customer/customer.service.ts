@@ -3,17 +3,17 @@ import {
   ForbiddenException,
   Injectable,
 } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { createTransactionDto, createWalletDto, topUpDto } from "./dto";
+import { createTransactionDto, createWalletDto, topUpDto } from './dto';
 import { Transaction, User, Wallet } from '@prisma/client';
 import { transactionsInterface } from './interface';
-import { Etypes } from 'src/auth/enums';
+import { Etypes } from '../auth/enums';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class CustomerService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createWallet(dto: createWalletDto, user: User):Promise<Wallet> {
+  async createWallet(dto: createWalletDto, user: User): Promise<Wallet> {
     const wallet = await this.prisma.wallet.create({
       data: {
         balance: 0,
@@ -27,7 +27,7 @@ export class CustomerService {
     return wallet;
   }
 
-  async getAllWallets(user: User) :Promise<Wallet[]>{
+  async getAllWallets(user: User): Promise<Wallet[]> {
     const wallets = await this.prisma.wallet.findMany({
       where: {
         userId: user.id,
@@ -43,7 +43,7 @@ export class CustomerService {
     dto: createTransactionDto,
     me: number,
     toId: number,
-  ):Promise<Transaction> {
+  ): Promise<Transaction> {
     const toWallet = await this.prisma.wallet.findUnique({
       where: {
         id: to,
@@ -92,14 +92,14 @@ export class CustomerService {
         walletId: from,
         fromUserId: me,
         toUserId: toId,
-        type:Etypes.TRANSFER
+        type: Etypes.TRANSFER,
       },
     });
 
     return transaction;
   }
 
-  async viewWallet(id: number){
+  async viewWallet(id: number) {
     const wallet = await this.prisma.wallet.findUnique({
       where: {
         id: id,
@@ -153,27 +153,28 @@ export class CustomerService {
       wallet,
       transactions: transactionsy,
     };
-
   }
 
-  async topUpWallet(id: number, dto: topUpDto, me: number):Promise<Transaction> {
+  async topUpWallet(
+    id: number,
+    dto: topUpDto,
+    me: number,
+  ): Promise<Transaction> {
     const wallet = await this.prisma.wallet.findUnique({
       where: {
         id: id,
       },
     });
 
-    if(wallet.userId!==me){
-      throw new ForbiddenException('You cannot top up this wallet')
+    if (wallet.userId !== me) {
+      throw new ForbiddenException('You cannot top up this wallet');
     }
 
-    if(wallet.currency!==dto.currency){
-      throw new ForbiddenException('Currency does not match')
+    if (wallet.currency !== dto.currency) {
+      throw new ForbiddenException('Currency does not match');
     }
-
 
     const newBalance = wallet.balance + dto.amount;
-
 
     const newWallet = await this.prisma.wallet.update({
       where: {
@@ -190,8 +191,8 @@ export class CustomerService {
         currency: wallet.currency,
         walletId: id,
         fromUserId: me,
-        type:Etypes.TOPUP,
-        toUserId:me
+        type: Etypes.TOPUP,
+        toUserId: me,
       },
     });
 

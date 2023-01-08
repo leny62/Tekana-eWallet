@@ -5,7 +5,6 @@
 
 # misc
 .env.env
-/prisma/migrations
 instructions.md
 # Logs
 logs
@@ -31,7 +30,7 @@ lerna-debug.log*
 *.launch
 .settings/
 *.sublime-workspace
-
+yarn.lock
 # IDE - VSCode
 .vscode/*
 !.vscode/settings.json

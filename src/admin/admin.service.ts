@@ -2,8 +2,9 @@ import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { customerDto } from './dto';
 import { ERoles } from '../auth/enums';
-import * as argon from 'argon2';
-import { Admin, User } from '@prisma/client';
+import * as bcrypt from 'bcryptjs';
+
+import {  User } from '@prisma/client';
 @Injectable()
 export class AdminService {
   constructor(private readonly prisma: PrismaService) {}
@@ -17,7 +18,7 @@ export class AdminService {
     if (customer) {
       throw new ConflictException('Customer already exist');
     }
-    const password = await argon.hash(dto.password);
+    const password = await bcrypt.hash(dto.password,10);
     const newCustomer = await this.prisma.customers.create({
       data: {
         fullNames: dto.fullNames,

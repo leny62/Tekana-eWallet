@@ -7,11 +7,10 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
-import { AdminLoginDto, CustomerLoginDto } from './dto';
+import { AdminDto, AdminLoginDto, CustomerLoginDto } from './dto';
 import { Admin } from '@prisma/client';
-import * as argon from 'argon2';
-import { AdminDto } from 'src/admin/dto';
 import { ERoles } from './enums';
+import * as bcrypt from 'bcryptjs'
 
 @Injectable()
 export class AuthService {
@@ -63,7 +62,7 @@ export class AuthService {
       throw new ConflictException('Admin already exist');
     }
 
-    const password = await argon.hash(dto.password);
+    const password = await bcrypt.hash(dto.password,10);
 
     const newAdmin = await this.prisma.admin.create({
       data: {
@@ -84,7 +83,7 @@ export class AuthService {
 
     if (!admin) {
       throw new NotFoundException('Admin does not exist');
-    } else if (!(await argon.verify(admin.password, dto.password))) {
+    } else if (!(await bcrypt.compare(admin.password, dto.password))) {
       throw new ForbiddenException('Wrong Admin password');
     } else {
       return this.generateToken(
@@ -104,7 +103,7 @@ async  customerLogin(dto:CustomerLoginDto){
 
   if (!customer) {
     throw new NotFoundException('customer does not exist');
-  } else if (!(await argon.verify(customer.password, dto.password))) {
+  } else if (!(await bcrypt.compare(customer.password, dto.password))) {
     throw new ForbiddenException('Wrong customer password');
   } else {
     return this.generateToken(
