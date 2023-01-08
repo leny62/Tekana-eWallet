@@ -7,10 +7,9 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
-import { AdminLoginDto, CustomerLoginDto } from './dto';
+import { AdminDto, AdminLoginDto, CustomerLoginDto } from './dto';
 import { Admin } from '@prisma/client';
 import * as argon from 'argon2';
-import { AdminDto } from 'src/admin/dto';
 import { ERoles } from './enums';
 
 @Injectable()

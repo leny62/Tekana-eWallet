@@ -22,6 +22,36 @@ export class AdminLoginDto {
   password: string;
 }
 
+export class AdminDto {
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    type: String,
+    format: 'fullName',
+    required: true,
+    default: 'John Doe',
+  })
+  fullNames: string;
+  @IsNumber()
+  @IsNotEmpty()
+  @ApiProperty({
+    type: Number,
+    format: 'phone',
+    required: true,
+    default: 123456789,
+  })
+  phone: number;
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    type: String,
+    format: 'password',
+    required: true,
+    default: 'password',
+  })
+  password: string;
+}
+
 export class CustomerLoginDto {
   @IsNumber()
   @IsNotEmpty()

@@ -1,6 +1,6 @@
 import { Controller, Body, Post, HttpCode } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AdminLoginDto, CustomerLoginDto } from './dto';
+import { AdminDto, AdminLoginDto, CustomerLoginDto } from './dto';
 import {
   ApiBody,
   ApiConflictResponse,
@@ -11,7 +11,6 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { AdminDto } from 'src/admin/dto';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -23,7 +22,7 @@ export class AuthController {
   @ApiOperation({ summary: 'register admin' })
   @ApiCreatedResponse({ description: 'Admin created successfully' })
   @ApiConflictResponse({ description: 'Admin already exists' })
-  async registerAdmin(@Body() dto: AdminDto) {
+  async registerAdmin(@Body() dto:AdminDto ) {
     return this.authService.createAdmin(dto);
   }
 
