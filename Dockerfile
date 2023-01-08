@@ -2,9 +2,10 @@ FROM node:16.17.0-bullseye-slim
 
 WORKDIR /usr/src/app
 
-COPY package.json yarn.lock ./
+COPY package.json package-lock.json ./
 
-RUN npm install
+
+RUN npm ci
 
 COPY . .
 

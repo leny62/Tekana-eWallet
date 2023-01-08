@@ -31,10 +31,28 @@ export class PrismaService
         },
       });
     }
-    await this.customers.create({
+    const customer = await this.customers.create({
       data: {
         fullNames: 'Leny Pascal IHIRWE',
         phone: 788888888,
+      },
+    });
+    const user = await this.user.create({
+      data: {
+        fullNames: 'Leny Pascal IHIRWE',
+        phone: 788888888,
+        role: ERoles.CUSTOMER,
+        password: await argon.hash('password'),
+        userId: customer.id,
+      },
+    });
+    const wallet = await this.wallet.create({
+      data: {
+        balance: 2000,
+        currency: 'RWF',
+        name: 'My wallet',
+        description: 'My wallet',
+        userId: user.id,
       },
     });
     console.log(`Seeding finished.`);
