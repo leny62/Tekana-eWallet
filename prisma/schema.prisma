@@ -58,7 +58,6 @@ model Transaction {
     id Int @id @default(autoincrement())
     amount Float
     currency String
-    status String
     walletId Int
     fromUserId Int
     toUserId Int
