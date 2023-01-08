@@ -73,6 +73,12 @@ Strategy break-down:
     in .env change the db host from localhost to psqldb and run the following command:
     * docker-compose up
 
+### Checking database with prisma studio
+
+  prisma offers a GUI to view and edit data in the database,
+    to use it run the following command:
+    
+        npm run prisma:studio
 
 
     
