@@ -54,6 +54,8 @@ Strategy break-down:
 - Clone the project
 
     git clone
+- 
+- create a .env file in the root directory of the project and add variables as shown in the .env.example file
 
 # Commands to apply migrations and seeds
 
@@ -68,8 +70,8 @@ Strategy break-down:
     npm start:dev
 
 - Running the docker container
-
-    docker-compose up
+    in .env change the db host from localhost to psqldb and run the following command:
+    * docker-compose up
 
     
 
