@@ -29,3 +29,10 @@ export class createWalletDto{
     })
     description  :string
 }
+
+export class createTransactionDto{
+    @IsNumber()
+    @IsNotEmpty()
+    @ApiProperty({type:Number,required:true,default:5000})
+    amount:number
+}
