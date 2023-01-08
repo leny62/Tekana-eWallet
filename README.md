@@ -57,13 +57,13 @@ Strategy break-down:
 - 
 - create a .env file in the root directory of the project and add variables as shown in the .env.example file
 
-# Commands to apply migrations and seeds
-
-    prisma:deploy
-
 - Install dependencies
 
     npm install
+- 
+# Commands to apply migrations and seeds
+
+    npm run prisma:deploy
 
 - Run the project
 
@@ -72,6 +72,8 @@ Strategy break-down:
 - Running the docker container
     in .env change the db host from localhost to psqldb and run the following command:
     * docker-compose up
+
+
 
     
 
