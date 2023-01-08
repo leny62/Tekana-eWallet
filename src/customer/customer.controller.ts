@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpCode, ParseIntPipe, Post, Query, UseGuards }
 import {
   ApiBearerAuth, ApiBody,
   ApiCreatedResponse, ApiForbiddenResponse,
-  ApiInternalServerErrorResponse, ApiOkResponse, ApiQuery,
+  ApiInternalServerErrorResponse, ApiOkResponse, ApiOperation, ApiQuery,
   ApiTags,
   ApiUnauthorizedResponse
 } from "@nestjs/swagger";
@@ -12,7 +12,7 @@ import { ERoles } from 'src/auth/enums';
 import { JwtGuard } from 'src/auth/guard/jwt.guard';
 import { RolesGuard } from 'src/auth/guard/roles.guard';
 import { CustomerService } from './customer.service';
-import { createTransactionDto, createWalletDto } from './dto';
+import { createTransactionDto, createWalletDto, topUpDto } from "./dto";
 
 @Controller('customer')
 @ApiTags('customer')
@@ -40,6 +40,7 @@ export class CustomerController {
 
   @Post('create-transaction')
   @ApiCreatedResponse({ description: 'created transaction' })
+  @ApiOperation({ summary: 'Transfer money' })
   @ApiBody({ type: createTransactionDto })
   @ApiQuery({ name: 'from', type: Number,description:'walletId for your wallet' })
   @ApiQuery({ name: 'to', type: Number,description:'walletId for the wallet you want to transfer to' })
@@ -52,10 +53,21 @@ export class CustomerController {
 
   @Get('view-wallet')
   @ApiOkResponse({ description: 'wallet retrieved' })
-  @ApiQuery({ name: 'walletId', type: Number })
+  @ApiOperation({ summary: 'View your wallet' })
+  @ApiQuery({ name: 'walletId', type: Number,description:'walletId for the wallet your wallet' })
   async getWallet(@Query('walletId',ParseIntPipe)walletId:number){
     return await this.customerService.viewWallet(walletId);
     
+  }
+
+  @Post('topup-wallet')
+  @ApiCreatedResponse({ description: 'topup wallet' })
+  @ApiOperation({ summary: 'Top up your wallet' })
+  @ApiQuery({ name: 'walletId', type: Number,description:'walletId for the wallet your wallet' })
+  @ApiForbiddenResponse({ description: 'currency do notmatch or this not your  account' })
+  @ApiBody({ type: topUpDto })
+  async topUpWallet(@Query('walletId',ParseIntPipe)id:number,@Body()dto:topUpDto,@GetUser()user:User){
+    return await this.customerService.topUpWallet(id,dto,user.id);
   }
 
   }

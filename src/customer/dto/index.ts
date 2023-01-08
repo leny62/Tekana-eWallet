@@ -36,3 +36,15 @@ export class createTransactionDto{
     @ApiProperty({type:Number,required:true,default:5000})
     amount:number
 }
+
+export class topUpDto{
+    @IsNumber()
+    @IsNotEmpty()
+    @ApiProperty({type:Number,required:true,default:5000})
+    amount:number
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty({type:String,required:true,default:'RWF'})
+    currency:string
+}

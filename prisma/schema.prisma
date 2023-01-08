@@ -60,7 +60,8 @@ model Transaction {
     currency String
     walletId Int
     fromUserId Int
-    toUserId Int
+    type      String
+    toUserId Int?
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
     wallet Wallet @relation(fields: [walletId], references: [id])
