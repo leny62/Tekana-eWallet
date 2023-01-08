@@ -37,4 +37,65 @@ export class AdminService {
       return user;
     }
   }
+
+  async viewCustomers(): Promise<User[]> {
+    const customers = await this.prisma.user.findMany({
+      where: {
+        role: ERoles.CUSTOMER,
+      },
+      include:{
+        Wallet: true,
+      }
+    });
+    return customers;
+  }
+
+  async viewCustomerWallet(id: number) {
+    const wallet = await this.prisma.wallet.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+
+    const t = await this.prisma.transaction.findMany({
+      where: {
+        walletId: id,
+      },
+    });
+
+    const fromUsers = await this.prisma.user.findMany({
+      where: {
+        id: {
+          in: t.map((transaction) => transaction.fromUserId),
+        },
+      },
+    });
+
+    const toUsers = await this.prisma.user.findMany({
+      where: {
+        id: {
+          in: t.map((transaction) => transaction.toUserId),
+        },
+      },
+    });
+
+    const transactionsy = t.map((transaction) => {
+      const fromUser = fromUsers.find(
+        (user) => user.id === transaction.fromUserId,
+      );
+      const toUser = toUsers.find((user) => user.id === transaction.toUserId);
+      return {
+        ...transaction,
+        fromUser: fromUser,
+        toUser: toUser,
+      };
+    });
+
+    return {
+      wallet,
+      transactions: transactionsy,
+    };
+  }
+
 }

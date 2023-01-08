@@ -1,6 +1,14 @@
-import { Controller, Post,Body,UseGuards } from "@nestjs/common";
-import { AdminService } from "./admin.service";
-import {AdminDto, customerDto} from "./dto";
+import {
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  Get,
+  ParseIntPipe,
+  Query,
+} from '@nestjs/common';
+import { AdminService } from './admin.service';
+import { AdminDto, customerDto } from './dto';
 import {
   ApiBody,
   ApiConflictResponse,
@@ -10,8 +18,9 @@ import {
   ApiTags,
   ApiBearerAuth,
   ApiUnauthorizedResponse,
-  ApiInternalServerErrorResponse
-} from "@nestjs/swagger";
+  ApiInternalServerErrorResponse,
+  ApiQuery,
+} from '@nestjs/swagger';
 
 import { AllowRoles } from 'src/auth/decorators';
 import { ERoles } from 'src/auth/enums';
@@ -25,15 +34,33 @@ import { RolesGuard } from 'src/auth/guard/roles.guard';
 @ApiUnauthorizedResponse({ description: 'Unauthorized' })
 @ApiBearerAuth()
 export class AdminController {
-  constructor(private  readonly adminService:AdminService) {}
+  constructor(private readonly adminService: AdminService) {}
 
   @Post('create-customer')
-  @ApiBody({type:customerDto})
-  @ApiOperation({summary:'create customer'})
-  @ApiCreatedResponse({description:'Customer created successfully'})
-  @ApiConflictResponse({description:'Customer already exists'})
-  async createCustomer(@Body()dto:customerDto){
-    return this.adminService.createCustomer(dto)
+  @ApiBody({ type: customerDto })
+  @ApiOperation({ summary: 'create customer' })
+  @ApiCreatedResponse({ description: 'Customer created successfully' })
+  @ApiConflictResponse({ description: 'Customer already exists' })
+  async createCustomer(@Body() dto: customerDto) {
+    return this.adminService.createCustomer(dto);
   }
 
+  @Get('get-customers')
+  @ApiOperation({ summary: 'get all customers' })
+  @ApiOkResponse({ description: 'customers retrieved successfully' })
+  async getCustomers() {
+    return this.adminService.viewCustomers();
+  }
+
+  @Get('wallet-transactions')
+  @ApiOperation({ summary: 'get all transactions for wallet' })
+  @ApiOkResponse({ description: 'transactions retrieved successfully' })
+  @ApiQuery({
+    name: 'walletId',
+    type: Number,
+    description: 'walletId for the wallet User wallet',
+  })
+  async getWalletTransactions(@Query('walletId', ParseIntPipe) id: number) {
+    return this.adminService.viewCustomerWallet(id);
+  }
 }
