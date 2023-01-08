@@ -6,6 +6,7 @@
 # misc
 .env.env
 /prisma/migrations
+instructions.md
 # Logs
 logs
 *.log
