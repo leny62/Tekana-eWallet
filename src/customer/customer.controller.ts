@@ -27,6 +27,7 @@ export class CustomerController {
 
   @Post('create-wallet')
   @ApiCreatedResponse({ description: 'created wallet' })
+  @ApiOperation({ summary: 'customer create wallet' })
   async createWallet(@Body() dto:createWalletDto,@GetUser() user:User){
     return await this.customerService.createWallet(dto,user);
   }
@@ -34,6 +35,7 @@ export class CustomerController {
   @Get('get-wallets')
   @HttpCode(200)
   @ApiOkResponse({ description: 'wallets retrieved' })
+  @ApiOperation({ summary: 'customer get all wallets' })
   async getAllWallets(@GetUser() user:User){
     return await this.customerService.getAllWallets(user);
   }

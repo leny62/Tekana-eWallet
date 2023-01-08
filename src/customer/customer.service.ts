@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { createTransactionDto, createWalletDto, topUpDto } from "./dto";
-import { User } from '@prisma/client';
+import { Transaction, User, Wallet } from '@prisma/client';
 import { transactionsInterface } from './interface';
 import { Etypes } from 'src/auth/enums';
 
@@ -13,7 +13,7 @@ import { Etypes } from 'src/auth/enums';
 export class CustomerService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createWallet(dto: createWalletDto, user: User) {
+  async createWallet(dto: createWalletDto, user: User):Promise<Wallet> {
     const wallet = await this.prisma.wallet.create({
       data: {
         balance: 0,
@@ -27,7 +27,7 @@ export class CustomerService {
     return wallet;
   }
 
-  async getAllWallets(user: User) {
+  async getAllWallets(user: User) :Promise<Wallet[]>{
     const wallets = await this.prisma.wallet.findMany({
       where: {
         userId: user.id,
@@ -43,7 +43,7 @@ export class CustomerService {
     dto: createTransactionDto,
     me: number,
     toId: number,
-  ) {
+  ):Promise<Transaction> {
     const toWallet = await this.prisma.wallet.findUnique({
       where: {
         id: to,
@@ -99,7 +99,7 @@ export class CustomerService {
     return transaction;
   }
 
-  async viewWallet(id: number) {
+  async viewWallet(id: number){
     const wallet = await this.prisma.wallet.findUnique({
       where: {
         id: id,
@@ -156,7 +156,7 @@ export class CustomerService {
 
   }
 
-  async topUpWallet(id: number, dto: topUpDto, me: number) {
+  async topUpWallet(id: number, dto: topUpDto, me: number):Promise<Transaction> {
     const wallet = await this.prisma.wallet.findUnique({
       where: {
         id: id,
