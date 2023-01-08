@@ -54,13 +54,13 @@ Strategy break-down:
 - Clone the project
 
     git clone
-- 
+
 - create a .env file in the root directory of the project and add variables as shown in the .env.example file
 
 - Install dependencies
 
     npm install
-- 
+
 # Commands to apply migrations and seeds
 
     npm run prisma:deploy
